@@ -54,7 +54,8 @@ window.onload = function () {
 
     form_submit.addEventListener('click', function(e){
         e.preventDefault();
-        
+        if (form_k.value <=0 || form_k.value > 50)
+            return; 
         result = new Result(
             form_ds.options[form_ds.selectedIndex].value,
             form_ag.options[form_ag.selectedIndex].value,
@@ -76,7 +77,7 @@ window.onload = function () {
             result.setCentroids(data.centroids);
             result.setClusters(data.clusters);
             result.setDimensions(data.dimensions);
-            console.log(result.dimensions);
+            
             total_itr = Object.keys(result.centroids);
             result.setTotalIteration(total_itr.length);
             
