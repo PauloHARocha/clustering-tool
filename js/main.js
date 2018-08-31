@@ -13,6 +13,14 @@ class Result{
     setClusters(clusters){
         this.clusters = clusters;
     }
+    
+    setDimensions(dimensions){
+        this.dimensions = []
+        for (let d = 0; d < dimensions; d++) {
+            this.dimensions.push(d);
+        }
+
+    }
 
     setTotalIteration(total_itr){
         this.total_itr = total_itr;
@@ -57,7 +65,8 @@ window.onload = function () {
         }).then(function(data){
             result.setCentroids(data.centroids);
             result.setClusters(data.clusters);
-
+            result.setDimensions(data.dimensions);
+            console.log(result.dimensions);
             total_itr = Object.keys(result.centroids);
             result.setTotalIteration(total_itr.length);
             
@@ -155,8 +164,8 @@ window.onload = function () {
         
         text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / ${form_k.value} / iter ${itr}`; 
 
-        for(x in [0,1,2,3]){
-            for (y in [0,1,2,3]){
+        for(x in result.dimensions){
+            for (y in result.dimensions){
                 if (x < y){
                     for (let i = 0; i < form_k.value; i++) {
                         centroids_chart.push({ x: centroids_data[itr][i][x], y: centroids_data[itr][i][y] });
@@ -172,7 +181,7 @@ window.onload = function () {
                             color: colors[i],
                             markerType: "circle",
                             markerSize: 4,
-                            name: "Clusters",
+                            name: `Cluster ${i}`,
                             showInLegend: true,
                             dataPoints: clusters_chart
                         })
@@ -208,12 +217,12 @@ window.onload = function () {
                         axisX: {
                             title: `Dimension ${x}`,
                             minimum: 0,
-                            maximum: 10
+                            maximum: 1
                         },
                         axisY: {
                             title: `Dimension ${y}`,
                             minimum: 0,
-                            maximum: 10
+                            maximum: 1
                         },
                         data: data_config
                     }));
