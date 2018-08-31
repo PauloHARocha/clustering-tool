@@ -50,7 +50,8 @@ window.onload = function () {
     let form_ds = document.getElementById('dataset');
     let form_ag = document.getElementById('algorithm');
     let form_k = document.getElementById('k');
-
+    let select_section = document.getElementById('select-section');
+    let title = document.getElementById('result_title');
 
     form_submit.addEventListener('click', function(e){
         e.preventDefault();
@@ -71,9 +72,16 @@ window.onload = function () {
         // // Read the response as json.
         // return response.json();
 
+        
+        select_section.innerHTML = '';
+        title.innerHTML = '';
+        let loader = document.getElementById('sp_loader');
+        loader.setAttribute("class", "loader form-element");
+
         fetch(url).then(function(response){
             return response.json();
         }).then(function(data){
+            
             result.setCentroids(data.centroids);
             result.setClusters(data.clusters);
             result.setDimensions(data.dimensions);
@@ -81,8 +89,9 @@ window.onload = function () {
             total_itr = Object.keys(result.centroids);
             result.setTotalIteration(total_itr.length);
             
-            create_itr_change();
             centroids_chart();
+            loader.setAttribute("class", "loader form-element l_collapse");
+            create_itr_change();
         }).catch(function(e){
             console.log(Error(e));
         })
@@ -93,9 +102,6 @@ window.onload = function () {
 
     function create_itr_change(){
             
-        let select_section = document.getElementById('select-section');
-        select_section.innerHTML = ''
-        
         let select_label = document.createElement("label");
         select_label.setAttribute('for', 'itr');
         select_label.id = 'l_iter';
@@ -181,7 +187,7 @@ window.onload = function () {
         graphics_section.innerHTML = '';
         
         text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / k = ${form_k.value} /  iteration = ${itr}`; 
-        let title = document.getElementById('result_title');
+        
         title.innerHTML = text;
         for(x in result.dimensions){
             for (y in result.dimensions){
