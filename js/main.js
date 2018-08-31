@@ -225,9 +225,7 @@ window.onload = function () {
 
                     
                     let div = document.createElement("div");
-                    div.style.width = '33%';
-                    div.style.height = '250px';
-                    div.style.display = 'inline-block';
+                    div.setAttribute("class", "graphic_chart");
                     div.id = `chartContainer${x}${y}`;
                     graphics_section.appendChild(div);
                     charts.push(new CanvasJS.Chart(div.id, {
