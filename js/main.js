@@ -83,7 +83,7 @@ window.onload = function () {
             result.setCentroids(data.centroids);
             result.setClusters(data.clusters);
             result.setDimensions(data.dimensions);
-            console.log(data);
+            
             total_itr = Object.keys(result.centroids);
             result.setTotalIteration(total_itr.length);
             
@@ -186,6 +186,7 @@ window.onload = function () {
         text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / k = ${form_k.value} /  iteration = ${itr}`; 
         
         title.innerHTML = text;
+        title.style.fontSize = '1.3em';
         for(let x=0;x < result.dimensions.length;x++){
             for (let y =0; y < result.dimensions.length;y++){
                 if (x < y){

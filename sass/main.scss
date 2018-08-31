@@ -58,7 +58,7 @@ h2 {
     color: white;
 }
 
-.slc {
+.slc, input[type=number]{
    padding: 0.5%;
    box-shadow: none;
    background-color: white; 
@@ -68,12 +68,12 @@ h2 {
     transition-duration: 0.2s;
 }
 
-.slc:hover, .slc:focus {
+.slc:hover, .slc:focus, input[type=number] {
     background-color: deepskyblue;
     color: white;
 }
 
-.btn, .slc, label {
+.btn, .slc, label, input[type=number]
     padding: 1% 1.5%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
