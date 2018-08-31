@@ -8,6 +8,32 @@
     <title>Clustering</title>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <main id="content">
+        <h1>Clustering tool</h1>
+        <section id="form-section">
+            <form>
+                <label for="dataset">Select dataset:</label>
+                <select  id="dataset">
+                    <option value='0'>Íris</option>
+                </select>
+                <label for="algorithm">Select algorithm:</label>
+                <select id="algorithm">
+                    <option value='0'>K-means</option>
+                </select>
+                <input type="number" name="input_k" id="k" max="15" min="1">
+                <input type="submit" value='run' id='form-submit'>
+            </form>
+        </section>
+        <section id="select-section">
+        
+        </section>
+        
+        
+
+        <section id="graphics"></section>
+
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/canvasjs.min.js"></script>
 </body>
 </html>
