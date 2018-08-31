@@ -52,6 +52,7 @@ window.onload = function () {
     let form_k = document.getElementById('k');
     let select_section = document.getElementById('select-section');
     let title = document.getElementById('result_title');
+    let graphics_section = document.getElementById("graphics");
 
     form_submit.addEventListener('click', function(e){
         e.preventDefault();
@@ -75,6 +76,7 @@ window.onload = function () {
         
         select_section.innerHTML = '';
         title.innerHTML = '';
+        graphics_section.innerHTML = '';
         let loader = document.getElementById('sp_loader');
         loader.setAttribute("class", "loader form-element");
 
@@ -183,7 +185,6 @@ window.onload = function () {
         charts = [];
 
         let data_config = [];
-        let graphics_section = document.getElementById("graphics");
         graphics_section.innerHTML = '';
         
         text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / k = ${form_k.value} /  iteration = ${itr}`; 
