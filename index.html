@@ -5,28 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
+    
     <title>Clustering</title>
 </head>
 <body>
     <main id="content">
-        <h1>Clustering tool</h1>
+        <header class="navigation">
+            <h1>Clustering tool</h1>
+        </header>
+        
         <section id="form-section">
             <form>
-                <label for="dataset">Select dataset:</label>
-                <select  id="dataset">
-                    <option value='0'>Íris</option>
-                </select>
-                <label for="algorithm">Select algorithm:</label>
-                <select id="algorithm">
-                    <option value='0'>K-means</option>
-                </select>
-                <input type="number" name="input_k" id="k" max="50" min="1">
-                <input type="submit" value='run' id='form-submit'>
+                <div class="form-element">
+                    <label for="dataset">Dataset</label>
+                    <select  id="dataset" class="slc">
+                        <option value='0'>Íris</option>
+                    </select>
+                </div>
+                <div class="form-element">
+                    <label for="algorithm">Algorithm</label>
+                    <select class="slc" id="algorithm">
+                        <option value='0'>K-means</option>
+                    </select>
+                </div>
+                <div class="form-element">
+                    <label for="k">k</label>
+                    <input type="number" name="input_k" id="k" max="50" min="1">
+                </div>
+                <input type="submit" class="btn" value='Run' id='form-submit'>
+                <section id="select-section" class="form-element"> </section>
+                <h2 id="result_title" class="form-element"></h2>
             </form>
         </section>
-        <section id="select-section">
         
-        </section>
         
         
 
@@ -35,5 +46,6 @@
     </main>
     <script src="js/main.js"></script>
     <script src="js/canvasjs.min.js"></script>
+
 </body>
 </html>

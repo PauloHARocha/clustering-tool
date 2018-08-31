@@ -1,3 +1,85 @@
-h1{
-    color: #00FF00;
+body{
+    margin: 0;
 }
+
+label{
+    display: block;
+}
+
+h2 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
+}
+
+.navigation {
+  list-style: none;
+  margin: 0; 
+  
+  background: deepskyblue;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  -webkit-flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.navigation h1{
+  text-decoration: overline underline;
+  display: block;   
+  color: white;
+  font-size: 1.3em;
+  margin-left: 1%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.form-element {
+    display: inline-block;
+    margin: 1%;
+}
+
+.btn {
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    cursor: pointer;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+    border-radius: 10%;
+}
+
+.btn:hover, .btn:focus {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.slc {
+   padding: 0.5%;
+   box-shadow: none;
+   background-color: white; 
+   border: 2px solid deepskyblue;
+   border-radius: 5%;
+   -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+}
+
+.slc:hover, .slc:focus {
+    background-color: deepskyblue;
+    color: white;
+}
+
+.btn, .slc, label {
+    padding: 1% 1.5%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.iteration{
+    padding: 5% 20%;
+    font-size: 1em;
+}
+

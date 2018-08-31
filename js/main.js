@@ -36,7 +36,8 @@ class Result{
 window.onload = function () {
     let form_submit = document.getElementById('form-submit');
     let result = {};
-    const colors = ["green", "red", "yellow", "blue", "purple",
+    let charts = [];
+    const colors = ["green", "red", "blue", "yellow", "purple",
         "orange", "brown", "pink", "gray", "cyan",
         '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
         '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
@@ -96,11 +97,13 @@ window.onload = function () {
         
         let select_label = document.createElement("label");
         select_label.setAttribute('for', 'itr');
-        select_label.innerHTML = 'Iteration: ';
+        select_label.id = 'l_iter';
+        select_label.innerHTML = `Iteration`;
         select_section.appendChild(select_label);
 
         let select_itr = document.createElement("select");
         select_itr.id = `itr`;
+        select_itr.setAttribute('class', 'slc iteration');
         select_section.appendChild(select_itr);
         
         let option_itr;
@@ -113,6 +116,7 @@ window.onload = function () {
 
         select_itr.addEventListener('change', function (e) {
             result.setCurrentIteration(select_itr.options[select_itr.selectedIndex].value);
+            select_label.innerHTML = `Iteration`;
             centroids_chart();
         })
     }
@@ -163,16 +167,21 @@ window.onload = function () {
         let clusters_data = result.clusters;
         let text;
         let itr = result.current_itr;
-        let charts = []
         let centroids_chart = [];
         let clusters_chart = [];
+
+        for (let c = 0; c < charts.length; c++) {
+            charts[c].destroy();
+        }
+        charts = [];
 
         let data_config = [];
         let graphics_section = document.getElementById("graphics");
         graphics_section.innerHTML = '';
         
-        text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / ${form_k.value} / iter ${itr}`; 
-
+        text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / k = ${form_k.value} /  iteration = ${itr}`; 
+        let title = document.getElementById('result_title');
+        title.innerHTML = text;
         for(x in result.dimensions){
             for (y in result.dimensions){
                 if (x < y){
@@ -190,8 +199,8 @@ window.onload = function () {
                             color: colors[i],
                             markerType: "circle",
                             markerSize: 4,
-                            name: `Cluster ${i}`,
-                            showInLegend: false,
+                            name: `${clusters_keys_j.length}`,
+                            showInLegend: true,
                             dataPoints: clusters_chart
                         })
 
@@ -213,7 +222,7 @@ window.onload = function () {
                     
                     let div = document.createElement("div");
                     div.style.width = '33%';
-                    div.style.height = '300px';
+                    div.style.height = '250px';
                     div.style.display = 'inline-block';
                     div.id = `chartContainer${x}${y}`;
                     graphics_section.appendChild(div);
@@ -221,7 +230,7 @@ window.onload = function () {
                         // animationEnabled: true,
                         zoomEnabled: true,
                         title: {
-                            text: text
+                            // text: text
                         },
                         axisX: {
                             title: `Dimension ${x}`,
