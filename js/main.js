@@ -15,11 +15,7 @@ class Result{
     }
     
     setDimensions(dimensions){
-        this.dimensions = []
-        for (let d = 0; d < dimensions; d++) {
-            this.dimensions.push(d);
-        }
-
+        this.dimensions = dimensions
     }
 
     setTotalIteration(total_itr){
@@ -64,8 +60,8 @@ window.onload = function () {
             form_k.value
         );
         
-        let url = `https://api-clustering.herokuapp.com/${form_ds.options[form_ds.selectedIndex].value}/${form_ag.options[form_ag.selectedIndex].value}/${form_k.value}`;
-        // let url = `http://localhost:5000/${result.dataset}/${result.algorithm}/${result.k}`;
+        // let url = `https://api-clustering.herokuapp.com/${form_ds.options[form_ds.selectedIndex].value}/${form_ag.options[form_ag.selectedIndex].value}/${form_k.value}`;
+        let url = `http://localhost:5000/${result.dataset}/${result.algorithm}/${result.k}`;
         
         // if (!response.ok) {
         //     throw Error(response.statusText);
@@ -87,7 +83,7 @@ window.onload = function () {
             result.setCentroids(data.centroids);
             result.setClusters(data.clusters);
             result.setDimensions(data.dimensions);
-            
+            console.log(data);
             total_itr = Object.keys(result.centroids);
             result.setTotalIteration(total_itr.length);
             
@@ -190,8 +186,8 @@ window.onload = function () {
         text = `${form_ds.options[form_ds.selectedIndex].text} / ${form_ag.options[form_ag.selectedIndex].text} / k = ${form_k.value} /  iteration = ${itr}`; 
         
         title.innerHTML = text;
-        for(x in result.dimensions){
-            for (y in result.dimensions){
+        for(let x=0;x < result.dimensions.length;x++){
+            for (let y =0; y < result.dimensions.length;y++){
                 if (x < y){
                     for (let i = 0; i < form_k.value; i++) {
                         centroids_chart.push({ x: centroids_data[itr][i][x], y: centroids_data[itr][i][y] });
@@ -241,12 +237,12 @@ window.onload = function () {
                             // text: text
                         },
                         axisX: {
-                            title: `Dimension ${x}`,
+                            title: `${result.dimensions[x]}`,
                             minimum: 0,
                             maximum: 1
                         },
                         axisY: {
-                            title: `Dimension ${y}`,
+                            title: `${result.dimensions[y]}`,
                             minimum: 0,
                             maximum: 1
                         },
