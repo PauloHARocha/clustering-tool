@@ -60,8 +60,8 @@ window.onload = function () {
             form_k.value
         );
         
-        let url = `https://api-clustering.herokuapp.com/${form_ds.options[form_ds.selectedIndex].value}/${form_ag.options[form_ag.selectedIndex].value}/${form_k.value}`;
-        // let url = `http://localhost:5000/${result.dataset}/${result.algorithm}/${result.k}`;
+        // let url = `https://api-clustering.herokuapp.com/${form_ds.options[form_ds.selectedIndex].value}/${form_ag.options[form_ag.selectedIndex].value}/${form_k.value}`;
+        let url = `http://localhost:5000/${result.dataset}/${result.algorithm}/${result.k}`;
         
         // if (!response.ok) {
         //     throw Error(response.statusText);
