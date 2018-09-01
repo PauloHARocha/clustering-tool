@@ -86,7 +86,7 @@ window.onload = function () {
             
             total_itr = Object.keys(result.centroids);
             result.setTotalIteration(total_itr.length);
-            result.setCurrentIteration(result.total_itr);
+            result.setCurrentIteration(result.total_itr - 1);
             
             centroids_chart();
             loader.setAttribute("class", "loader form-element l_collapse");
