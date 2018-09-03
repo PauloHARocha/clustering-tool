@@ -30,27 +30,43 @@ class Result{
     }
 }
 window.onload = function () {
-    let form_submit = document.getElementById('form-submit');
     let result = {};
     let charts = [];
+    let chart_metrics = [];
     const colors = ["green", "red", "blue", "yellow", "purple",
-        "orange", "brown", "pink", "gray", "cyan",
-        '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-        '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-        '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-        '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-        '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-        '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-        '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-        '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+    "orange", "brown", "pink", "gray", "cyan",
+    '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+    '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+    '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+    '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+    '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+    '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+    '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+    '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+
+    //Change page function
+    let btn_iteration = document.getElementById('open-iteration');
+    let btn_metrics = document.getElementById('open-metrics');
+    let iteration_section = document.getElementById('iteration-section');
+    let metrics_section = document.getElementById('metrics-section');
+    btn_iteration.addEventListener('click', function(){
+        iteration_section.setAttribute('class', '');
+        metrics_section.setAttribute('class', 'hide-section');
+    });
+    btn_metrics.addEventListener('click', function () {
+        metrics_section.setAttribute('class', '');
+        iteration_section.setAttribute('class', 'hide-section');
+    });
+
+    //Generate iterations function
+    let iteration_submit = document.getElementById('form-submit');
     let form_ds = document.getElementById('dataset');
     let form_ag = document.getElementById('algorithm');
     let form_k = document.getElementById('k');
     let select_section = document.getElementById('select-section');
     let title = document.getElementById('result_title');
     let graphics_section = document.getElementById("graphics");
-
-    form_submit.addEventListener('click', function(e){
+    iteration_submit.addEventListener('click', function(e){
         e.preventDefault();
         if (form_k.value <=0 || form_k.value > 50)
             return; 
@@ -60,15 +76,8 @@ window.onload = function () {
             form_k.value
         );
         
-        let url = `https://api-clustering.herokuapp.com/${form_ds.options[form_ds.selectedIndex].value}/${form_ag.options[form_ag.selectedIndex].value}/${form_k.value}`;
-        // let url = `http://localhost:5000/${result.dataset}/${result.algorithm}/${result.k}`;
-        
-        // if (!response.ok) {
-        //     throw Error(response.statusText);
-        // }
-        // // Read the response as json.
-        // return response.json();
-
+        let url = `https://api-clustering.herokuapp.com/iterations/${result.dataset}/${result.algorithm}/${result.k}`;
+        // let url = `http://localhost:5000/iterations/${result.dataset}/${result.algorithm}/${result.k}`;
         
         select_section.innerHTML = '';
         title.innerHTML = '';
@@ -97,10 +106,126 @@ window.onload = function () {
 
     })
 
-    
+    let metrics_submit = document.getElementById('metrics-submit');
+    let metrics_ds = document.getElementById('metrics-dataset');
+    let metrics_ag = document.getElementById('metrics-algorithm');
+    let metrics_k_min = document.getElementById('k-min');
+    let metrics_k_max = document.getElementById('k-max');
+    let metrics_n_sim = document.getElementById('n_sim');
+    let metrics_results = document.getElementById("metrics-results");
+
+    metrics_submit.addEventListener('click', function(e){
+        e.preventDefault();
+        let k_min = parseInt(metrics_k_min.value);
+        let k_max = parseInt(metrics_k_max.value);
+        let n_sim = parseInt(metrics_n_sim.value);
+        if (k_min <= 0 || k_min > 10 || k_max <= k_min || k_max > 15){
+            return;
+        }
+        if (n_sim < 5 || n_sim > 30){
+            return;
+        }
+
+        result_metrics = {
+            'dataset': metrics_ds.options[metrics_ds.selectedIndex].value,
+            'algorithm': metrics_ag.options[metrics_ag.selectedIndex].value,
+            'k_min': k_min,
+            'k_max': k_max,
+            'n_sim': n_sim,
+        }
+
+        let url = `https://api-clustering.herokuapp.com/comparision/${result_metrics.dataset}/${result_metrics.algorithm}/${result_metrics.k_min}/${result_metrics.k_max}/${result_metrics.n_sim}`;
+        // let url = `http://localhost:5000/comparision/${result_metrics.dataset}/${result_metrics.algorithm}/${result_metrics.k_min}/${result_metrics.k_max}/${result_metrics.n_sim}`;
+        
+        metrics_results.innerHTML = '';
+        let loader = document.getElementById('metrics_sp_loader');
+        loader.setAttribute("class", "loader form-element");
+
+        fetch(url).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+
+            result_metrics.data = data[result_metrics.algorithm];
+            
+            metrics_chart(result_metrics);
+            
+            loader.setAttribute("class", "loader form-element l_collapse");
+            
+        }).catch(function (e) {
+            console.log(Error(e));
+        })
+
+    });
+
+    function metrics_chart(results){
+        let data = results.data;
+
+        for (let c = 0; c < chart_metrics.length; c++) {
+            chart_metrics[c].destroy();
+        }
+        chart_metrics = [];
+        results['metrics'] = {};
+        for(let k in data){
+            for(let met in data[k]){
+                if(results.metrics[met] === undefined){
+                    results.metrics[met] = {
+                        'mean': [],
+                        'std': []
+                    }
+                }
+                
+                results.metrics[met].mean.push({ y: data[k][met].mean, label: k });  
+                results.metrics[met].std.push({ 
+                    y: [data[k][met].mean - data[k][met].std, data[k][met].mean + data[k][met].std], 
+                    label: k });  
+            }
+        }
+
+        for(let met in results.metrics){
+            let div = document.createElement("div");
+            div.setAttribute("class", "graphic_chart");
+            div.id = `chartContainer${met}`;
+            metrics_results.appendChild(div);
+
+            chart_metrics.push(new CanvasJS.Chart(div.id, {
+                animationEnabled: false,
+                title: {
+                    text: met
+                },
+                axisX: {
+                    title: "k",
+                    interval: 1
+                },
+                axisY: {
+                    title: "Mean",
+                    // suffix: " in",
+                    includeZero: true
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [{
+                    type: "line",
+                    name: "Value",
+                    toolTipContent: "<b>{label}</b><br><span style=\"color:#4F81BC\">{name}</span>: {y}",
+                    markerType: "none",
+                    dataPoints: results.metrics[met].mean
+                },
+                {
+                    type: "error",
+                    name: "std",
+                    toolTipContent: "<span style=\"color:#C0504E\">{name}</span>: {y[0]} - {y[1]}",
+                    dataPoints: results.metrics[met].std
+                }]
+            }));
+        }
+        for (let c = 0; c < chart_metrics.length; c++) {
+            chart_metrics[c].render();
+        }
+        
+    }
 
     function create_itr_change(){
-            
         let select_label = document.createElement("label");
         select_label.setAttribute('for', 'itr');
         select_label.id = 'l_iter';
@@ -126,47 +251,6 @@ window.onload = function () {
             centroids_chart();
         })
     }
-
-    // function generate_results(results){
-    //     let html_centroids = [];
-    //     let html_clusters = [];
-    //     // p.innerHTML = JSON.stringify(data);
-    //     // p.innerHTML = JSON.stringify(data);
-    //     let centroids_keys_i = Object.keys(results.centroids);
-    //     let centroids_keys_j = 0;
-    //     let clusters_keys_k = 0;
-
-    //     for (i = 0; i < centroids_keys_i.length; i++) {
-    //         html_centroids.push('<tr>');
-    //         html_clusters.push('<tr>');
-
-    //         centroids_keys_j = Object.keys(results.centroids[i]);
-    //         for (let j = 0; j < centroids_keys_j.length; j++){
-    //             html_centroids.push(`<td>${parseFloat(results.centroids[i][j]).toFixed(4)}</td>`);
-                
-    //             clusters_keys_k = Object.keys(results.clusters[i][j]);
-    //             html_clusters.push('<td>');
-                
-    //             for (let k = 0; k<clusters_keys_k.length;k++){
-    //                 for (let w = 0; w < results.k; w++)
-    //                     html_clusters.push(`${results.clusters[i][j][k]} -/-`);
-    //             }
-    //             html_clusters.push('</td>');
-    //         }
-
-    //         html_centroids.push('</tr>');
-    //         html_clusters.push('</tr>');
-    //     }
-
-    //     let table_centroids = document.getElementById("tb_results_centroids");
-    //     let table_clusters = document.getElementById("tb_results_clusters");
-
-    //     table_centroids.innerHTML = html_centroids.join('');
-    //     table_clusters.innerHTML = html_clusters.join('');
-        
-    // }
-
-    
 
     function centroids_chart() {
         let centroids_data = result.centroids;

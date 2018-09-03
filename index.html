@@ -12,9 +12,11 @@
     <main id="content">
         <header class="navigation">
             <h1>Clustering tool</h1>
+            <button id="open-iteration">Iteration</button>
+            <button id="open-metrics">Metrics</button>
         </header>
         
-        <section id="form-section">
+        <section id="iteration-section">
             <form>
                 <div class="form-element">
                     <label for="dataset">Dataset</label>
@@ -40,12 +42,49 @@
                 <section id="select-section" class="form-element"> </section>
                 <h2 id="result_title" class="form-element"></h2>
             </form>
+
+            <section id="graphics"></section>
+        </section>
+
+        <section id="metrics-section" class="hide-section">
+            <form>
+                <div class="form-element">
+                    <label for="metrics-dataset">Dataset</label>
+                    <select id="metrics-dataset" class="slc">
+                        <option value='0'>Íris</option>
+                        <option value='1'>Wine</option>
+                        <option value='2'>Diabetes</option>
+                    </select>
+                </div>
+                <div class="form-element">
+                    <label for="metrics-algorithm">Algorithm</label>
+                    <select class="slc" id="metrics-algorithm">
+                        <option value='0'>K-means</option>
+                        <option value='1'>FC-means</option>
+                    </select>
+                </div>
+                <div class="form-element">
+                    <label for="k-min">kmin</label>
+                    <input type="number" name="k_min" id="k-min" max="10" min="1">
+                </div>
+                <div class="form-element">
+                    <label for="k-max">kmax</label>
+                    <input type="number" name="k_max" id="k-max" max="15" min="2">
+                </div>
+                <div class="form-element">
+                    <label for="n_sim">Simulations</label>
+                    <input type="number" name="n_sim" id="n_sim" max="30" min="5">
+                </div>
+                <input type="submit" class="btn" value='Run' id='metrics-submit'>
+                <div class="loader form-element l_collapse" id="metrics_sp_loader"></div>
+            </form>
+        
+            <section id="metrics-results"></section>
         </section>
         
         
         
 
-        <section id="graphics"></section>
 
     </main>
     <script src="js/main.js"></script>
