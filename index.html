@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-element">
                     <label for="k">k</label>
-                    <input type="number" name="input_k" id="k" max="50" min="1">
+                    <input type="number" value="1" name="input_k" id="k" max="50" min="1">
                 </div>
                 <input type="submit" class="btn" value='Run' id='form-submit'>
                 <div class="loader form-element l_collapse" id="sp_loader"></div>   
@@ -65,15 +65,15 @@
                 </div>
                 <div class="form-element">
                     <label for="k-min">kmin</label>
-                    <input type="number" name="k_min" id="k-min" max="10" min="1">
+                    <input type="number" value="2" name="k_min" id="k-min" max="10" min="1">
                 </div>
                 <div class="form-element">
                     <label for="k-max">kmax</label>
-                    <input type="number" name="k_max" id="k-max" max="15" min="2">
+                    <input type="number" value="3" name="k_max" id="k-max" max="15" min="2">
                 </div>
                 <div class="form-element">
                     <label for="n_sim">Simulations</label>
-                    <input type="number" name="n_sim" id="n_sim" max="30" min="5">
+                    <input type="number" value="5" name="n_sim" id="n_sim" max="30" min="5">
                 </div>
                 <input type="submit" class="btn" value='Run' id='metrics-submit'>
                 <div class="loader form-element l_collapse" id="metrics_sp_loader"></div>
@@ -82,12 +82,16 @@
             <section id="metrics-results"></section>
         </section>
         
-        
-        
-
 
     </main>
+    <script src="js/data/iteration.js"></script>
+    <script src="js/data/metric.js"></script>
+    <script src="js/controllers/iterationController.js"></script>
+    <script src="js/controllers/metricController.js"></script>
+    <script src="js/views/iterationViews.js"></script>
+    <script src="js/views/metricViews.js"></script>
     <script src="js/main.js"></script>
+
     <script src="js/canvasjs.min.js"></script>
 
 </body>
